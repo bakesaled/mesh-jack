@@ -31,6 +31,8 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
+    "test:all": "ng test all",
+    "test:all:watch": "npm run test:all -- --watch",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "release": "standard-version"
