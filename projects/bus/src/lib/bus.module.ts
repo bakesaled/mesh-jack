@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
-import { BusComponent } from './bus.component';
-
-
+import { BusService } from './bus.service';
 
 @NgModule({
-  declarations: [BusComponent],
-  imports: [
-  ],
-  exports: [BusComponent]
+  declarations: [],
+  imports: [],
+  exports: [],
+  providers: [BusService],
 })
-export class BusModule { }
+export class BusModule {}
