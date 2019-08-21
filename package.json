@@ -1,10 +1,10 @@
 {
   "name": "@bakesaled/mesh-jack",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Decoupled Angular message bus.",
-  "main": "dist/index.js",
-  "module": "dist/esm.js",
-  "typings": "dist/index.d.ts",
+  "main": "release/index.js",
+  "module": "release/esm.js",
+  "typings": "release/index.d.ts",
   "keywords": [
     "angular",
     "typescript",
@@ -24,12 +24,22 @@
     "node": ">= 10.6.0"
   },
   "files": [
-    "dist"
+    "release"
   ],
   "scripts": {
+    "clean": "npm-run-all -p clean:*",
+    "clean:build": "rimraf build",
+    "clean:dist": "rimraf dist",
+    "clean:release": "rimraf release",
+    "copy:build": "cpx \"projects/bus/src/**/!(test.ts|bus.service.spec.ts)\" build",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:esm": "rollup --config rollup.config.js",
+    "build:package": "npm run build:esm",
+    "package": "npm-run-all -s clean copy:build package:aot build:package package:minify",
+    "package:aot": "ngc -p tsconfig-aot.json",
+    "package:minify": "uglifyjs release/index.js --source-map --compress --mangle --screw-ie8 --output release/index.min.js",
     "test": "ng test",
     "test:all": "ng test all",
     "test:all:watch": "npm run test:all -- --watch",
@@ -60,6 +70,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",
     "codelyzer": "^5.0.0",
+    "cpx": "^1.5.0",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.1.0",
@@ -68,12 +79,25 @@
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
     "ng-packagr": "^5.3.0",
+    "npm-run-all": "^4.1.5",
     "prettier": "^1.18.2",
     "protractor": "~5.4.0",
+    "rimraf": "^3.0.0",
+    "rollup": "^1.19.4",
+    "rollup-plugin-angular": "^0.5.3",
+    "rollup-plugin-commonjs": "^10.0.2",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-typescript": "^1.0.1",
     "standard-version": "^7.0.0",
     "ts-node": "~7.0.0",
     "tsickle": "^0.36.0",
     "tslint": "~5.15.0",
-    "typescript": "~3.5.3"
+    "typescript": "~3.5.3",
+    "uglify-js": "^3.6.0"
+  },
+  "peerDependencies": {
+    "@angular/common": "8.x",
+    "@angular/core": "8.x",
+    "rxjs": "6.x"
   }
 }

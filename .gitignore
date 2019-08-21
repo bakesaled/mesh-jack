@@ -4,6 +4,9 @@
 /dist
 /tmp
 /out-tsc
+/build
+/release
+/.rpt2_cache
 # Only exists if Bazel was run
 /bazel-out
 
