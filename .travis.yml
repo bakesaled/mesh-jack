@@ -23,7 +23,7 @@ install:
 script:
   - npm run test:ci
   - npm run build:ci
-  - ng deploy --repo=https://$GH_TOKEN@github.com/bakesaled/$NAME.git --base-href=/$NAME/ --name="$GITHUB_NAME" --email="$GITHUB_EMAIL"
+  - test $TRAVIS_BRANCH = "master" && test $TRAVIS_PULL_REQUEST = "false" && ng deploy --repo=https://$GH_TOKEN@github.com/bakesaled/$NAME.git --base-href=/$NAME/ --name="$GITHUB_NAME" --email="$GITHUB_EMAIL"
 
 after_success:
   - npm run coveralls
