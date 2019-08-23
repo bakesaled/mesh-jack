@@ -26,5 +26,5 @@ script:
   - npm run build:ci:demo
 
 after_success:
-  - test $TRAVIS_BRANCH = "master" && test $TRAVIS_PULL_REQUEST = "false" && ng deploy --repo=https://$GH_TOKEN@github.com/bakesaled/$NAME.git --name="$GITHUB_NAME" --email="$GITHUB_EMAIL"
+  - ng deploy --repo=https://$GH_TOKEN@github.com/bakesaled/$NAME.git --name="$GITHUB_NAME" --email="$GITHUB_EMAIL"
   - npm run coveralls
