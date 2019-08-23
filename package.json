@@ -36,7 +36,6 @@
     "start": "ng serve",
     "build": "ng build",
     "build:ci": "npm run build:esm",
-    "build:ci:demo": "npm run clean:dist && npm run build:demo -- --base-href \"https://bakesaled.github.io/$NAME/\"",
     "build:demo": "ng build demo-app --prod --output-path dist",
     "build:esm": "rollup --config rollup.config.js",
     "build:package": "npm run build:esm",
