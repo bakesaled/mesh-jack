@@ -2,20 +2,9 @@ import { TestBed } from '@angular/core/testing';
 
 import { BusService } from './bus.service';
 import { Subject } from 'rxjs';
+import { BusMessage } from './bus-message';
 
-export interface Message {
-  /**
-   * The originator of the message.
-   */
-  source: any;
-
-  /**
-   * The payload to pass along with the message.
-   */
-  data: any;
-}
-
-export class MockMessage implements Message {
+class MockMessage implements BusMessage {
   constructor(public source: any, public data: any) {}
 }
 
