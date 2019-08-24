@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BusService } from '../../../../bus/src/lib/bus.service';
+import { BusService } from '../../../../bus/src/lib';
 
 @Component({
   selector: 'app-yankee',
@@ -11,8 +11,8 @@ export class YankeeComponent implements OnInit {
   constructor(private bus: BusService) {}
 
   ngOnInit() {
-    this.bus.channel('alpha').subscribe((data: string) => {
-      this.message = data;
+    this.bus.channel('alpha').subscribe(data => {
+      this.message = data.data;
     });
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BusService } from '../../../../bus/src/lib/bus.service';
+import { BusService } from '../../../../bus/src/lib';
 
 @Component({
   selector: 'app-alpha',
@@ -13,6 +13,6 @@ export class AlphaComponent implements OnInit {
   ngOnInit() {}
 
   onSendClick() {
-    this.busService.publish('alpha', this.message);
+    this.busService.publish('alpha', { source: this, data: this.message });
   }
 }

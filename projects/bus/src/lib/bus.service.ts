@@ -1,19 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { BusMessage } from './bus-message';
 
 @Injectable()
 export class BusService {
   constructor() {}
-  private channels: Map<string, Subject<any>> = new Map<string, Subject<any>>();
+  private channels: Map<string, Subject<BusMessage>> = new Map<
+    string,
+    Subject<BusMessage>
+  >();
 
-  public channel<T>(key: string): Observable<T> {
+  public channel(key: string): Observable<BusMessage> {
     if (!this.channels.has(key)) {
-      this.channels.set(key, new Subject<T>());
+      this.channels.set(key, new Subject<BusMessage>());
     }
     return this.channels.get(key).asObservable();
   }
 
-  publish<T>(channelKey: string, data: T) {
+  publish(channelKey: string, data: BusMessage) {
     if (this.channels.has(channelKey)) {
       this.channels.get(channelKey).next(data);
     }
