@@ -1,0 +1,19 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="'side'"
+    [opened]="true"
+  >
+    <mat-toolbar color="primary">mesh-jack demo</mat-toolbar>
+    <h2 class="app-panel-title">Elements</h2>
+    <app-elements></app-elements>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary"> </mat-toolbar>
+    <h2 class="app-panel-title">Canvas</h2>
+    <app-canvas></app-canvas>
+  </mat-sidenav-content>
+</mat-sidenav-container>

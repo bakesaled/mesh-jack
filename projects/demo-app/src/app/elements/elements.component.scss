@@ -1,0 +1,21 @@
+.container {
+  width: calc(100% - 40px);
+  max-width: 100%;
+  margin: 0 20px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.app-description {
+  padding: 20px;
+}
+
+circle,
+rect,
+text {
+  cursor: move;
+}
+
+div[appDraggable] {
+  display: inline-block;
+}
