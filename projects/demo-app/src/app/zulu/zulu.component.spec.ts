@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ZuluComponent } from './zulu.component';
+import { BusService } from '../../../../bus/src/lib';
 
 describe('ZuluComponent', () => {
   let component: ZuluComponent;
@@ -8,9 +9,9 @@ describe('ZuluComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ZuluComponent ]
-    })
-    .compileComponents();
+      declarations: [ZuluComponent],
+      providers: [BusService]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

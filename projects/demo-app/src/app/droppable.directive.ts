@@ -1,6 +1,7 @@
 import { Directive, HostListener } from '@angular/core';
 import { SvgService } from './svg.service';
 import { UuidUtil } from './uuid.util';
+import { ComponentDropService } from './component-drop.service';
 
 @Directive({
   selector: '[appDroppable]'
@@ -8,7 +9,10 @@ import { UuidUtil } from './uuid.util';
 export class DroppableDirective {
   private draggingElement: any;
 
-  constructor(private svgService: SvgService) {}
+  constructor(
+    private svgService: SvgService,
+    private componentDropService: ComponentDropService
+  ) {}
 
   @HostListener('drop', ['$event'])
   onDrop(event) {
@@ -38,6 +42,7 @@ export class DroppableDirective {
 
     const svgPoint = this.svgService.getSVGPoint(event, droppedElement);
     this.setPosition(droppedElement, { x: svgPoint.x, y: svgPoint.y });
+    this.componentDropService.emitDrop(uuid);
   }
 
   @HostListener('mousemove', ['$event'])

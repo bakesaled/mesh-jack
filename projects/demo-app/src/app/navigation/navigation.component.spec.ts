@@ -8,6 +8,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { NavigationComponent } from './navigation.component';
+import { CanvasComponent } from '../canvas/canvas.component';
+import { ElementsComponent } from '../elements/elements.component';
+import { FactoryComponent } from '../factory/factory.component';
 
 describe('NavigationComponent', () => {
   let component: NavigationComponent;
@@ -15,7 +18,12 @@ describe('NavigationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [NavigationComponent],
+      declarations: [
+        NavigationComponent,
+        CanvasComponent,
+        ElementsComponent,
+        FactoryComponent
+      ],
       imports: [
         NoopAnimationsModule,
         LayoutModule,
@@ -23,7 +31,7 @@ describe('NavigationComponent', () => {
         MatIconModule,
         MatListModule,
         MatSidenavModule,
-        MatToolbarModule,
+        MatToolbarModule
       ]
     }).compileComponents();
   }));

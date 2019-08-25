@@ -22,6 +22,7 @@ import { CanvasComponent } from './canvas/canvas.component';
 import { ElementsComponent } from './elements/elements.component';
 import { DroppableDirective } from './droppable.directive';
 import { DraggableDirective } from './draggable.directive';
+import { FactoryComponent } from './factory/factory.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { DraggableDirective } from './draggable.directive';
     CanvasComponent,
     ElementsComponent,
     DroppableDirective,
-    DraggableDirective
+    DraggableDirective,
+    FactoryComponent
   ],
   imports: [
     BrowserModule,
@@ -50,6 +52,7 @@ import { DraggableDirective } from './draggable.directive';
     MatListModule
   ],
   providers: [BusService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ZuluComponent]
 })
 export class AppModule {}

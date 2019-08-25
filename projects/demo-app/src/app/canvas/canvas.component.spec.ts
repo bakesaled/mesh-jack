@@ -2,6 +2,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CanvasComponent } from './canvas.component';
+import { FactoryComponent } from '../factory/factory.component';
 
 describe('CanvasComponent', () => {
   let component: CanvasComponent;
@@ -9,11 +10,8 @@ describe('CanvasComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CanvasComponent ],
-      imports: [
-        NoopAnimationsModule,
-        DragDropModule,
-      ]
+      declarations: [CanvasComponent, FactoryComponent],
+      imports: [NoopAnimationsModule, DragDropModule]
     }).compileComponents();
   }));
 
