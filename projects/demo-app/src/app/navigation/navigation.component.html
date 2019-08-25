@@ -12,7 +12,9 @@
     <app-elements></app-elements>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary"> </mat-toolbar>
+    <mat-toolbar color="primary">
+      <button mat-button (click)="onClearClick()">clear</button>
+    </mat-toolbar>
     <h2 class="app-panel-title">Canvas</h2>
     <app-canvas></app-canvas>
   </mat-sidenav-content>

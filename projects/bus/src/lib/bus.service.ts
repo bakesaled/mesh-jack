@@ -17,9 +17,9 @@ export class BusService {
     return this.channels.get(key).asObservable();
   }
 
-  publish(channelKey: string, data: BusMessage) {
+  publish(channelKey: string, message: BusMessage) {
     if (this.channels.has(channelKey)) {
-      this.channels.get(channelKey).next(data);
+      this.channels.get(channelKey).next(message);
     }
   }
 }
