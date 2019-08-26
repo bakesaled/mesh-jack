@@ -9,6 +9,10 @@ import { BusService } from '../../../../bus/src/lib';
 export class ExecutorComponent implements OnInit {
   private interval = 1000;
   private timer;
+
+  dirty = false;
+  running = false;
+
   constructor(private busService: BusService) {}
 
   ngOnInit() {}
@@ -19,6 +23,8 @@ export class ExecutorComponent implements OnInit {
       data: { event: 'start' }
     });
     this.runCycle();
+    this.dirty = true;
+    this.running = true;
   }
 
   onStopClick() {
@@ -27,6 +33,8 @@ export class ExecutorComponent implements OnInit {
       data: { event: 'stop' }
     });
     this.stopCycle();
+    this.dirty = true;
+    this.running = false;
   }
 
   onClearClick() {
@@ -34,6 +42,7 @@ export class ExecutorComponent implements OnInit {
       source: this,
       data: { event: 'clear' }
     });
+    this.dirty = false;
   }
 
   private runCycle() {

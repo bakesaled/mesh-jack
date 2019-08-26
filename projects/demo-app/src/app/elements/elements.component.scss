@@ -18,3 +18,15 @@ text {
 div[appDraggable] {
   display: inline-block;
 }
+
+.inline-icon-container {
+  background: #7b1fa2;
+  padding: 2px;
+}
+.inline-icon {
+  vertical-align: middle;
+  margin-right: 2px;
+}
+.inline-icon-text {
+  font-size: 14px;
+}

@@ -1,13 +1,29 @@
 <div class="container">
+  <h3>Message Log</h3>
   <mat-toolbar color="accent">
-    <button mat-button (click)="onRunClick()">
-      Run
+    <button
+      mat-icon-button
+      (click)="onRunClick()"
+      [disabled]="running"
+      matTooltip="start"
+    >
+      <mat-icon>play_arrow</mat-icon>
     </button>
-    <button mat-button (click)="onStopClick()">
-      Stop
+    <button
+      mat-icon-button
+      (click)="onStopClick()"
+      [disabled]="!running"
+      matTooltip="stop"
+    >
+      <mat-icon>pause</mat-icon>
     </button>
-    <button mat-button (click)="onClearClick()">
-      Clear
+    <button
+      mat-icon-button
+      (click)="onClearClick()"
+      [disabled]="!dirty"
+      matTooltip="clear"
+    >
+      <mat-icon>clear</mat-icon>
     </button>
   </mat-toolbar>
 </div>

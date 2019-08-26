@@ -15,8 +15,17 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      <button mat-button (click)="onClearClick()">clear</button>
-      <button mat-button (click)="onLinkClick()">link</button>
+      <button mat-button (click)="onClearClick()" [disabled]="!dirty">
+        <mat-icon>clear</mat-icon>clear
+      </button>
+      <button
+        mat-button
+        (click)="onLinkClick()"
+        [disabled]="selectedCount !== 2"
+      >
+        <mat-icon>link</mat-icon>
+        link
+      </button>
     </mat-toolbar>
     <h2 class="app-panel-title">Canvas</h2>
     <app-canvas></app-canvas>

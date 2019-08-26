@@ -26,6 +26,7 @@ import { FactoryComponent } from './factory/factory.component';
 import { SelectableDirective } from './selectable.directive';
 import { LinkableDirective } from './linkable.directive';
 import { ExecutorComponent } from './executor/executor.component';
+import { MatTooltipModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { ExecutorComponent } from './executor/executor.component';
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    MatTooltipModule
   ],
   providers: [BusService],
   bootstrap: [AppComponent],
