@@ -11,9 +11,6 @@ export class DraggableDirective {
   @HostListener('dragstart', ['$event'])
   onDragStart(event) {
     let elementToBeDragged = event.target.getElementsByTagName('g')[0];
-    if (!elementToBeDragged) {
-      elementToBeDragged = event.target.getElementsByTagName('rect')[0];
-    }
     event.dataTransfer.setData('text', elementToBeDragged.id);
   }
 

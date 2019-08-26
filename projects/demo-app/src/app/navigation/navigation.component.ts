@@ -25,4 +25,8 @@ export class NavigationComponent {
   onClearClick() {
     this.busService.publish('toolbar', { source: this, data: 'clear' });
   }
+
+  onLinkClick() {
+    this.busService.publish('toolbar', { source: this, data: 'link' });
+  }
 }

@@ -23,6 +23,8 @@ import { ElementsComponent } from './elements/elements.component';
 import { DroppableDirective } from './droppable.directive';
 import { DraggableDirective } from './draggable.directive';
 import { FactoryComponent } from './factory/factory.component';
+import { SelectableDirective } from './selectable.directive';
+import { LinkableDirective } from './linkable.directive';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { FactoryComponent } from './factory/factory.component';
     ElementsComponent,
     DroppableDirective,
     DraggableDirective,
-    FactoryComponent
+    FactoryComponent,
+    SelectableDirective,
+    LinkableDirective
   ],
   imports: [
     BrowserModule,

@@ -11,6 +11,7 @@ import { NavigationComponent } from './navigation.component';
 import { CanvasComponent } from '../canvas/canvas.component';
 import { ElementsComponent } from '../elements/elements.component';
 import { FactoryComponent } from '../factory/factory.component';
+import { BusService } from '../../../../bus/src/lib';
 
 describe('NavigationComponent', () => {
   let component: NavigationComponent;
@@ -32,7 +33,8 @@ describe('NavigationComponent', () => {
         MatListModule,
         MatSidenavModule,
         MatToolbarModule
-      ]
+      ],
+      providers: [BusService]
     }).compileComponents();
   }));
 

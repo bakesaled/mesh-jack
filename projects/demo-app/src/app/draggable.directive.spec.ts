@@ -2,12 +2,32 @@ import { DraggableDirective } from './draggable.directive';
 import { ElementRef } from '@angular/core';
 
 describe('DraggableDirective', () => {
+  let directive: DraggableDirective;
   const nativeEl = {
-    setAttribute(name, value) {}
+    setAttribute() {}
   };
   const el = new ElementRef(nativeEl);
+  beforeEach(() => {
+    directive = new DraggableDirective(el);
+  });
+
   it('should create an instance', () => {
-    const directive = new DraggableDirective(el);
     expect(directive).toBeTruthy();
+  });
+
+  it('should set element to be dragged', () => {
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    g.setAttribute('id', 'hulk');
+    const event: any = {
+      target: {
+        getElementsByTagName: () => [g]
+      },
+      dataTransfer: {
+        setData: () => undefined
+      }
+    };
+    const spy = spyOn(event.dataTransfer, 'setData');
+    directive.onDragStart(event);
+    expect(spy).toHaveBeenCalledWith('text', 'hulk');
   });
 });
