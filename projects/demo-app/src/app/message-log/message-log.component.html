@@ -1,2 +1,11 @@
-<p>message-log works!</p>
-<textarea></textarea>
+<div class="container">
+  <h3>Message Log</h3>
+  <div class="list" #list>
+    <mat-list>
+      <mat-list-item *ngFor="let message of messages; let last = last">
+        {{ message }}
+        {{ last ? scrollToBottom() : '' }}
+      </mat-list-item>
+    </mat-list>
+  </div>
+</div>

@@ -76,7 +76,11 @@ export class LinkableDirective implements OnInit {
     }
     this.busService.publish('linkable', {
       source: this,
-      data: { event: 'linkComplete' }
+      data: {
+        event: 'linkComplete',
+        startComponent: this.selectedComponents[0],
+        endComponent: this.selectedComponents[1]
+      }
     });
   }
 

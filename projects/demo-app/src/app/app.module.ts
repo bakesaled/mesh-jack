@@ -25,6 +25,7 @@ import { DraggableDirective } from './draggable.directive';
 import { FactoryComponent } from './factory/factory.component';
 import { SelectableDirective } from './selectable.directive';
 import { LinkableDirective } from './linkable.directive';
+import { ExecutorComponent } from './executor/executor.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { LinkableDirective } from './linkable.directive';
     DraggableDirective,
     FactoryComponent,
     SelectableDirective,
-    LinkableDirective
+    LinkableDirective,
+    ExecutorComponent
   ],
   imports: [
     BrowserModule,
