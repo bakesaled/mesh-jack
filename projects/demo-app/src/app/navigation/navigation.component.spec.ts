@@ -95,4 +95,24 @@ describe('NavigationComponent', () => {
     });
     expect(component['selectedCount']).toBe(0);
   });
+
+  it('should publish toolbar link event', () => {
+    const spy = jest.spyOn(component['busService'], 'publish');
+    component.onLinkClick();
+    expect(spy).toHaveBeenCalledWith('toolbar', {
+      source: component,
+      data: 'link'
+    });
+  });
+
+  it('should publish toolbar clear event and reset dirty', () => {
+    const spy = jest.spyOn(component['busService'], 'publish');
+    component.dirty = true;
+    component.onClearClick();
+    expect(spy).toHaveBeenCalledWith('toolbar', {
+      source: component,
+      data: 'clear'
+    });
+    expect(component.dirty).toBe(false);
+  });
 });
