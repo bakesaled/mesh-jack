@@ -1,27 +1,37 @@
-import { Directive, HostListener, OnInit } from '@angular/core';
+import { Directive, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { BusService } from '../../../bus/src/lib';
 import { ComponentModel } from './component.model';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Directive({
   selector: '[appSelectable]'
 })
-export class SelectableDirective implements OnInit {
+export class SelectableDirective implements OnInit, OnDestroy {
+  private destroySubject = new Subject();
   private dragStartCoords: any;
   private selectedComponents: ComponentModel[] = [];
 
   constructor(private busService: BusService) {}
 
   ngOnInit(): void {
-    this.busService.channel('canvas').subscribe(message => {
-      switch (message.data.event) {
-        case 'unselectAll':
-          this.unSelectAll();
-          break;
-        case 'clear':
-          this.unSelectAll();
-          break;
-      }
-    });
+    this.busService
+      .channel('canvas')
+      .pipe(takeUntil(this.destroySubject))
+      .subscribe(message => {
+        switch (message.data.event) {
+          case 'unselectAll':
+            this.unSelectAll();
+            break;
+          case 'clear':
+            this.unSelectAll();
+            break;
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroySubject.next();
   }
 
   @HostListener('mouseup', ['$event'])

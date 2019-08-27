@@ -1,35 +1,55 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import { BusService } from '../../../../bus/src/lib';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-message-log',
   templateUrl: './message-log.component.html',
   styleUrls: ['./message-log.component.scss']
 })
-export class MessageLogComponent implements OnInit {
+export class MessageLogComponent implements OnInit, OnDestroy {
+  private destroySubject = new Subject();
+
   messages: string[] = [];
   @ViewChild('list', { static: true }) private myScrollContainer: ElementRef;
 
   constructor(private busService: BusService) {}
 
   ngOnInit() {
-    this.busService.channel('executor').subscribe(message => {
-      switch (message.data.event) {
-        case 'start':
-          this.messages.push(this.formatMessage('starting'));
-          break;
-        case 'stop':
-          this.messages.push(this.formatMessage('stopping'));
-          break;
-        case 'clear':
-          this.messages = [];
-          break;
-      }
-    });
+    this.busService
+      .channel('executor')
+      .pipe(takeUntil(this.destroySubject))
+      .subscribe(message => {
+        switch (message.data.event) {
+          case 'start':
+            this.messages.push(this.formatMessage('starting'));
+            break;
+          case 'stop':
+            this.messages.push(this.formatMessage('stopping'));
+            break;
+          case 'clear':
+            this.messages = [];
+            break;
+        }
+      });
 
-    this.busService.channel('component-channel').subscribe(message => {
-      this.messages.push(this.formatMessage(message.data.text));
-    });
+    this.busService
+      .channel('component-channel')
+      .pipe(takeUntil(this.destroySubject))
+      .subscribe(message => {
+        this.messages.push(this.formatMessage(message.data.text));
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroySubject.next();
   }
 
   scrollToBottom() {

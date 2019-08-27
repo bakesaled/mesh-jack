@@ -1,59 +1,74 @@
-import { Directive, OnInit } from '@angular/core';
+import { Directive, OnDestroy, OnInit } from '@angular/core';
 import { ComponentModel } from './component.model';
 import { BusService } from '../../../bus/src/lib';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Directive({
   selector: '[appLinkable]'
 })
-export class LinkableDirective implements OnInit {
+export class LinkableDirective implements OnInit, OnDestroy {
+  private destroySubject = new Subject();
   private lines: string[] = [];
   private selectedComponents: ComponentModel[] = [];
 
   constructor(private busService: BusService) {}
 
   ngOnInit(): void {
-    this.busService.channel('canvas').subscribe(message => {
-      console.log('linkable message received');
-      switch (message.data.event) {
-        case 'link':
-          this.link(message.data.svgEl);
-          break;
-        case 'clear':
-          this.clear(message.data.svgEl);
-          break;
-      }
-    });
+    this.busService
+      .channel('canvas')
+      .pipe(takeUntil(this.destroySubject))
+      .subscribe(message => {
+        switch (message.data.event) {
+          case 'link':
+            this.link(message.data.svgEl);
+            break;
+          case 'clear':
+            this.clear(message.data.svgEl);
+            break;
+        }
+      });
 
-    this.busService.channel('droppable').subscribe(message => {
-      if (message.data.event === 'mousemove') {
-        const foundLineIds = this.lines.filter(lineId => {
-          return lineId.includes(message.data.component.id);
-        });
-
-        if (foundLineIds.length > 0) {
-          foundLineIds.forEach(id => {
-            this.positionLine(id, message.data.component);
+    this.busService
+      .channel('droppable')
+      .pipe(takeUntil(this.destroySubject))
+      .subscribe(message => {
+        if (message.data.event === 'mousemove') {
+          const foundLineIds = this.lines.filter(lineId => {
+            return lineId.includes(message.data.component.id);
           });
-        }
-      }
-    });
 
-    this.busService.channel('selectable').subscribe(message => {
-      if (message.data.event === 'selected') {
-        const foundIdx = this.selectedComponents.findIndex(comp => {
-          return comp.id === message.data.component.id;
-        });
-        if (message.data.selected) {
-          if (foundIdx < 0) {
-            this.selectedComponents.push(message.data.component);
-          }
-        } else {
-          if (foundIdx) {
-            this.selectedComponents.splice(foundIdx, 1);
+          if (foundLineIds.length > 0) {
+            foundLineIds.forEach(id => {
+              this.positionLine(id, message.data.component);
+            });
           }
         }
-      }
-    });
+      });
+
+    this.busService
+      .channel('selectable')
+      .pipe(takeUntil(this.destroySubject))
+      .subscribe(message => {
+        if (message.data.event === 'selected') {
+          const foundIdx = this.selectedComponents.findIndex(comp => {
+            return comp.id === message.data.component.id;
+          });
+          if (message.data.selected) {
+            if (foundIdx < 0) {
+              this.selectedComponents.push(message.data.component);
+            }
+          } else {
+            if (foundIdx) {
+              this.selectedComponents.splice(foundIdx, 1);
+            }
+          }
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroySubject.next();
   }
 
   private link(svgEl: SVGElement) {
@@ -122,7 +137,7 @@ export class LinkableDirective implements OnInit {
   private clear(svgEl: SVGElement) {
     while (
       svgEl.lastChild &&
-      (svgEl.lastChild as SVGElement).localName !== 'defs'
+      (svgEl.lastChild as SVGElement).localName === 'line'
     ) {
       svgEl.removeChild(svgEl.lastChild);
     }

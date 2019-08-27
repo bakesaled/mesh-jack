@@ -25,4 +25,20 @@ describe('MessageLogComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should add leading zero', () => {
+    const result = component['addLeadingZero'](5);
+    expect(result).toBe('05');
+  });
+
+  it('should format time', () => {
+    const time = new Date('1/1/2019 5:30:20.456');
+    const result = component['formatTime'](time);
+    expect(result).toBe('05:30:20.456');
+  });
+
+  it('should format message', () => {
+    const result = component['formatMessage']('cookies');
+    expect(result).toContain(' - cookies');
+  });
 });

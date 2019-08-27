@@ -31,9 +31,7 @@ describe('CanvasComponent', () => {
     component.components.push({
       id: 'foo',
       x: 5,
-      y: 3,
-      subChannels: [],
-      pubChannels: []
+      y: 3
     });
     const svg = document.getElementsByTagName('svg');
     const circle = document.createElementNS(
@@ -47,5 +45,13 @@ describe('CanvasComponent', () => {
     expect(svg[0].childElementCount).toBe(1);
     expect((svg[0].firstChild as SVGElement).localName).toBe('defs');
     expect(component.components.length).toBe(0);
+  });
+
+  it('should add new component on drop message', () => {
+    component['busService'].publish('droppable', {
+      source: this,
+      data: { event: 'drop', component: { id: 'hulk' } }
+    });
+    expect(component.components.length).toBe(1);
   });
 });

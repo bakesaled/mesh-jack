@@ -52,4 +52,100 @@ describe('LinkableDirective', () => {
     expect(line.getAttribute('x2')).toBe('5');
     expect(line.getAttribute('y2')).toBe('6');
   });
+
+  it('should clear', () => {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    const circle = document.createElementNS(
+      'http://www.w3.org/2000/svg',
+      'circle'
+    );
+    svg.append(circle);
+    svg.append(line);
+
+    directive['clear'](svg);
+    expect(svg.getElementsByTagName('line').length).toBe(0);
+    expect(svg.getElementsByTagName('circle').length).toBe(1);
+  });
+
+  it('should link', () => {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    directive['selectedComponents'].push(<any>{
+      id: 'the',
+      x: 1,
+      y: 2
+    });
+    directive['selectedComponents'].push(<any>{
+      id: 'hulk',
+      x: 3,
+      y: 4
+    });
+    const spyPublish = spyOn(directive['busService'], 'publish');
+    const spyDrawLine = spyOn(<any>directive, 'drawLine');
+    directive['link'](svg);
+    expect(spyPublish).toHaveBeenCalled();
+    expect(spyDrawLine).toHaveBeenCalledWith(svg);
+  });
+
+  it('should unlink', () => {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('id', 'line-the-hulk');
+    directive['selectedComponents'].push(<any>{
+      id: 'the',
+      x: 1,
+      y: 2
+    });
+    directive['selectedComponents'].push(<any>{
+      id: 'hulk',
+      x: 3,
+      y: 4
+    });
+    svg.append(line);
+    document.body.append(svg);
+    directive['lines'].push('line-the-hulk');
+    directive['link'](svg);
+    expect(svg.childNodes.length).toBe(0);
+    expect(directive['lines'].length).toBe(0);
+  });
+
+  it('should draw a line', () => {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    directive['selectedComponents'].push(<any>{
+      id: 'the',
+      x: 1,
+      y: 2
+    });
+    directive['selectedComponents'].push(<any>{
+      id: 'hulk',
+      x: 3,
+      y: 4
+    });
+    document.body.append(svg);
+    directive['drawLine'](svg);
+    expect(directive['lines'].length).toBe(1);
+    const line = document.getElementById('line-the-hulk');
+    expect(line).not.toBeNull();
+    expect(line.getAttribute('stroke-width')).toBe('5');
+  });
+
+  it('should position line on element drag', () => {
+    const spy = spyOn(<any>directive, 'positionLine');
+    directive['lines'].push('line-the-hulk');
+    directive.ngOnInit();
+    directive['busService'].publish('droppable', {
+      source: this,
+      data: { event: 'mousemove', component: { id: 'hulk' } }
+    });
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should add new selected component', () => {
+    directive.ngOnInit();
+    directive['busService'].publish('selectable', {
+      source: this,
+      data: { event: 'selected', selected: true, component: { id: 'hulk' } }
+    });
+    expect(directive['selectedComponents'].length).toBe(1);
+  });
 });

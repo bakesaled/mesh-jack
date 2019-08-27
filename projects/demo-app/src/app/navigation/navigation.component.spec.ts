@@ -51,4 +51,48 @@ describe('NavigationComponent', () => {
   it('should compile', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should increment selectedComponentCount', () => {
+    component['busService'].publish('selectable', {
+      source: this,
+      data: { selected: true }
+    });
+    expect(component['selectedCount']).toBe(1);
+  });
+
+  it('should decrement selectedComponentCount', () => {
+    component['selectedCount'] = 1;
+    component['busService'].publish('selectable', {
+      source: this,
+      data: { selected: false }
+    });
+    expect(component['selectedCount']).toBe(0);
+  });
+
+  it('should set dirty if drop message comes from droppable', () => {
+    expect(component.dirty).toBe(false);
+    component['busService'].publish('droppable', {
+      source: this,
+      data: { event: 'drop' }
+    });
+    expect(component.dirty).toBe(true);
+  });
+
+  it('should set selectedCount = 0 if clear or unselectAll message comes from canvas', () => {
+    component['selectedCount'] = 1;
+    expect(component.dirty).toBe(false);
+    component['busService'].publish('canvas', {
+      source: this,
+      data: { event: 'clear' }
+    });
+    expect(component['selectedCount']).toBe(0);
+
+    component['selectedCount'] = 1;
+    expect(component.dirty).toBe(false);
+    component['busService'].publish('canvas', {
+      source: this,
+      data: { event: 'unselectAll' }
+    });
+    expect(component['selectedCount']).toBe(0);
+  });
 });

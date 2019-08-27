@@ -25,6 +25,7 @@ export class DroppableDirective {
 
     if (droppedElement.localName !== 'g') {
       console.warn('only g elements allowed to be dropped');
+      return;
     }
     (droppedElement.firstChild as SVGElement).setAttribute('draggable', 'true');
     (droppedElement.childNodes[1] as SVGElement).setAttribute(
@@ -41,8 +42,6 @@ export class DroppableDirective {
         event: 'drop',
         component: {
           id: uuid,
-          subChannels: [],
-          pubChannels: [],
           x: svgPoint.x,
           y: svgPoint.y
         }
