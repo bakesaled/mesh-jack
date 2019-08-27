@@ -12,6 +12,8 @@ import { CanvasComponent } from '../canvas/canvas.component';
 import { ElementsComponent } from '../elements/elements.component';
 import { FactoryComponent } from '../factory/factory.component';
 import { BusService } from '../../../../bus/src/lib';
+import { ExecutorComponent } from '../executor/executor.component';
+import { MessageLogComponent } from '../message-log/message-log.component';
 
 describe('NavigationComponent', () => {
   let component: NavigationComponent;
@@ -23,7 +25,9 @@ describe('NavigationComponent', () => {
         NavigationComponent,
         CanvasComponent,
         ElementsComponent,
-        FactoryComponent
+        FactoryComponent,
+        ExecutorComponent,
+        MessageLogComponent
       ],
       imports: [
         NoopAnimationsModule,

@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MessageLogComponent } from './message-log.component';
+import { MatListModule } from '@angular/material';
+import { BusService } from '../../../../bus/src/lib';
 
 describe('MessageLogComponent', () => {
   let component: MessageLogComponent;
@@ -8,9 +10,10 @@ describe('MessageLogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MessageLogComponent ]
-    })
-    .compileComponents();
+      declarations: [MessageLogComponent],
+      imports: [MatListModule],
+      providers: [BusService]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -13,8 +13,8 @@ module.exports = {
   ],
   globals: {
     'ts-jest': {
-      tsConfigFile: '<rootDir>/projects/ng-test-all/tsconfig.spec.json'
+      tsConfig: '<rootDir>/projects/ng-test-all/tsconfig.spec.json'
     },
-    __TRANSFORM_HTML__: true
+    stringifyContentPathRegex: true
   }
 };

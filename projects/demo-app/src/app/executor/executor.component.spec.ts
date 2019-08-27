@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ExecutorComponent } from './executor.component';
+import { MatIconModule, MatToolbarModule } from '@angular/material';
+import { BusService } from '../../../../bus/src/lib';
 
 describe('ExecutorComponent', () => {
   let component: ExecutorComponent;
@@ -8,9 +10,10 @@ describe('ExecutorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ExecutorComponent ]
-    })
-    .compileComponents();
+      declarations: [ExecutorComponent],
+      imports: [MatToolbarModule, MatIconModule],
+      providers: [BusService]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

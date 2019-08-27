@@ -3,10 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AlphaComponent } from './alpha/alpha.component';
-import { BravoComponent } from './bravo/bravo.component';
 import { ZuluComponent } from './zulu/zulu.component';
-import { YankeeComponent } from './yankee/yankee.component';
 import { BusService } from '../../../bus/src/lib';
 import { FormsModule } from '@angular/forms';
 import { MessageLogComponent } from './message-log/message-log.component';
@@ -31,10 +28,7 @@ import { MatTooltipModule } from '@angular/material';
 @NgModule({
   declarations: [
     AppComponent,
-    AlphaComponent,
-    BravoComponent,
     ZuluComponent,
-    YankeeComponent,
     MessageLogComponent,
     NavigationComponent,
     CanvasComponent,
