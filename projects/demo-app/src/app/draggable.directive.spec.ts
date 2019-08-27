@@ -30,4 +30,13 @@ describe('DraggableDirective', () => {
     directive.onDragStart(event);
     expect(spy).toHaveBeenCalledWith('text', 'hulk');
   });
+
+  it('should prevent default behavior on dragover', () => {
+    const event = {
+      preventDefault: () => undefined
+    };
+    const spy = jest.spyOn(event, 'preventDefault');
+    directive.onDragOver(event);
+    expect(spy).toHaveBeenCalled();
+  });
 });

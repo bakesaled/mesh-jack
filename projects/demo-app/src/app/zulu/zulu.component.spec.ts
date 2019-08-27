@@ -45,6 +45,26 @@ describe('ZuluComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
+  it('should subscribe to executor messages if id matches startComponent', () => {
+    const spy = jest.spyOn(<any>component, 'subscribeToExecutorMessages');
+    component.model = <any>{
+      id: 'the'
+    };
+    component['initSubscriptions']({
+      source: this,
+      data: {
+        event: 'linkComplete',
+        startComponent: {
+          id: 'the'
+        },
+        endComponent: {
+          id: 'hulk'
+        }
+      }
+    });
+    expect(spy).toHaveBeenCalled();
+  });
+
   it('should publish `sent` component message if `pulse` message received from executor', () => {
     const spy = jest.spyOn(component['busService'], 'publish');
     component.model = <any>{

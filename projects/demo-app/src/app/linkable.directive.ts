@@ -59,7 +59,7 @@ export class LinkableDirective implements OnInit, OnDestroy {
               this.selectedComponents.push(message.data.component);
             }
           } else {
-            if (foundIdx) {
+            if (foundIdx > -1) {
               this.selectedComponents.splice(foundIdx, 1);
             }
           }

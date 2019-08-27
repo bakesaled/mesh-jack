@@ -118,14 +118,47 @@ describe('SelectableDirective', () => {
       'http://www.w3.org/2000/svg',
       'circle'
     );
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     g.append(circle);
+    g.append(text);
     const spy = jest.spyOn(<any>directive, 'setSelected');
     const event: any = {
       x: 4,
       y: 6,
-      target: circle
+      target: text
     };
     directive.onMouseUp(event);
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should send selected message if mouseup was after a drag', () => {
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    g.setAttribute('id', 'foo');
+    const circle = document.createElementNS(
+      'http://www.w3.org/2000/svg',
+      'circle'
+    );
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    g.append(circle);
+    g.append(text);
+    const spy = jest.spyOn(directive['busService'], 'publish');
+    spyOn(<any>directive, 'elementWasDragged').and.callFake(() => true);
+    const event: any = {
+      x: 4,
+      y: 6,
+      target: text
+    };
+    directive.onMouseUp(event);
+    expect(spy).toHaveBeenCalledWith('selectable', {
+      source: directive,
+      data: {
+        selected: true,
+        component: {
+          id: 'foo',
+          x: event.offsetX,
+          y: event.offsetY
+        }
+      }
+    });
   });
 });

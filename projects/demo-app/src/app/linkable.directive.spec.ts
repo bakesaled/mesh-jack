@@ -149,6 +149,17 @@ describe('LinkableDirective', () => {
     expect(directive['selectedComponents'].length).toBe(1);
   });
 
+  it('should remove selected component', () => {
+    directive['selectedComponents'].push(<any>{ id: 'hulk' });
+    directive.ngOnInit();
+    expect(directive['selectedComponents'].length).toBe(1);
+    directive['busService'].publish('selectable', {
+      source: this,
+      data: { event: 'selected', selected: false, component: { id: 'hulk' } }
+    });
+    expect(directive['selectedComponents'].length).toBe(0);
+  });
+
   it('should clear on canvas clear message received', () => {
     const spy = jest.spyOn(<any>directive, 'clear');
     directive.ngOnInit();
