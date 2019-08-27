@@ -41,4 +41,37 @@ describe('MessageLogComponent', () => {
     const result = component['formatMessage']('cookies');
     expect(result).toContain(' - cookies');
   });
+
+  it('should add new message on component-channel message', () => {
+    component['busService'].publish('component-channel', {
+      source: this,
+      data: { text: 'hulk' }
+    });
+    expect(component.messages.length).toBe(1);
+  });
+
+  it('should add new message on executor start message', () => {
+    component['busService'].publish('executor', {
+      source: this,
+      data: { event: 'start' }
+    });
+    expect(component.messages.length).toBe(1);
+  });
+
+  it('should add new message on executor stop message', () => {
+    component['busService'].publish('executor', {
+      source: this,
+      data: { event: 'stop' }
+    });
+    expect(component.messages.length).toBe(1);
+  });
+
+  it('should clear messages on executor clear message', () => {
+    component.messages.push('hulk');
+    component['busService'].publish('executor', {
+      source: this,
+      data: { event: 'clear' }
+    });
+    expect(component.messages.length).toBe(0);
+  });
 });

@@ -26,7 +26,7 @@ describe('DraggableDirective', () => {
         setData: () => undefined
       }
     };
-    const spy = spyOn(event.dataTransfer, 'setData');
+    const spy = jest.spyOn(event.dataTransfer, 'setData');
     directive.onDragStart(event);
     expect(spy).toHaveBeenCalledWith('text', 'hulk');
   });

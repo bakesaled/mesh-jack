@@ -23,45 +23,56 @@ export class ZuluComponent implements OnInit, OnDestroy {
     this.busService
       .channel('linkable')
       .pipe(takeUntil(this.destroySubject))
-      .subscribe(linkableMessage => {
-        if (linkableMessage.data.event === 'linkComplete') {
-          if (linkableMessage.data.startComponent.id === this.model.id) {
-            if (this.pulseSubscription === Subscription.EMPTY) {
-              this.pulseSubscription = this.busService
-                .channel('executor')
-                .subscribe(executorMessage => {
-                  if (executorMessage.data.event === 'pulse') {
-                    this.busService.publish(this.channelName, {
-                      source: this,
-                      data: { event: 'sent', text: `${this.model.id} --> sent` }
-                    });
-                  }
-                });
-            }
-          }
-          if (linkableMessage.data.endComponent.id === this.model.id) {
-            this.busService
-              .channel(this.channelName)
-              .subscribe(componentMessage => {
-                if (
-                  componentMessage.source.model.id ===
-                  linkableMessage.data.startComponent.id
-                ) {
-                  this.busService.publish(this.channelName, {
-                    source: this,
-                    data: {
-                      event: 'received',
-                      text: `${componentMessage.source.model.id} --> received --> ${this.model.id}`
-                    }
-                  });
-                }
-              });
-          }
+      .subscribe(message => {
+        if (message.data.event === 'linkComplete') {
+          this.initSubscriptions(message);
         }
       });
   }
 
   ngOnDestroy(): void {
     this.destroySubject.next();
+  }
+
+  private initSubscriptions(linkableMessage) {
+    if (linkableMessage.data.startComponent.id === this.model.id) {
+      this.subscribeToExecutorMessages();
+    }
+    if (linkableMessage.data.endComponent.id === this.model.id) {
+      this.subscribeToComponentMessages(linkableMessage);
+    }
+  }
+
+  private subscribeToExecutorMessages() {
+    if (this.pulseSubscription === Subscription.EMPTY) {
+      this.pulseSubscription = this.busService
+        .channel('executor')
+        .subscribe(executorMessage => {
+          if (executorMessage.data.event === 'pulse') {
+            this.busService.publish(this.channelName, {
+              source: this,
+              data: { event: 'sent', text: `${this.model.id} --> sent` }
+            });
+          }
+        });
+    }
+  }
+
+  private subscribeToComponentMessages(linkableMessage) {
+    this.busService.channel(this.channelName).subscribe(componentMessage => {
+      if (
+        componentMessage.source.model.id ===
+          linkableMessage.data.startComponent.id &&
+        componentMessage.data.event === 'sent'
+      ) {
+        this.busService.publish(this.channelName, {
+          source: this,
+          data: {
+            event: 'received',
+            text: `${componentMessage.source.model.id} --> received --> ${this.model.id}`
+          }
+        });
+      }
+    });
   }
 }

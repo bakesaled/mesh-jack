@@ -67,8 +67,8 @@ describe('DroppableDirective', () => {
         getData: () => 'hulk'
       }
     };
-    const spyPub = spyOn(directive['busService'], 'publish');
-    const spySetPos = spyOn(<any>directive, 'setPosition');
+    const spyPub = jest.spyOn(directive['busService'], 'publish');
+    const spySetPos = jest.spyOn(<any>directive, 'setPosition');
     spyOn(directive['svgService'], 'getSVGPoint').and.callFake(() => {
       return { x: 5, y: 7 };
     });
@@ -84,7 +84,9 @@ describe('DroppableDirective', () => {
       'http://www.w3.org/2000/svg',
       'circle'
     );
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     g.append(circle);
+    g.append(text);
     g.setAttribute('id', 'hulk');
     const event: any = {
       preventDefault: () => undefined,
@@ -94,8 +96,8 @@ describe('DroppableDirective', () => {
         getData: () => 'hulk'
       }
     };
-    const spyPub = spyOn(directive['busService'], 'publish');
-    const spySetPos = spyOn(<any>directive, 'setPosition');
+    const spyPub = jest.spyOn(directive['busService'], 'publish');
+    const spySetPos = jest.spyOn(<any>directive, 'setPosition');
     spyOn(directive['svgService'], 'getSVGPoint').and.callFake(() => {
       return { x: 5, y: 7 };
     });

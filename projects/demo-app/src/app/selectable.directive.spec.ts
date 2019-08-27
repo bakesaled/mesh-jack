@@ -90,4 +90,42 @@ describe('SelectableDirective', () => {
     expect(circle2.getAttribute('stroke')).toBe('black');
     expect(circle2.getAttribute('stroke-width')).toBe('1px');
   });
+
+  it('should unselectAll if canvas sends a clear message', () => {
+    const spy = jest.spyOn(<any>directive, 'unSelectAll');
+    directive.ngOnInit();
+    directive['busService'].publish('canvas', {
+      source: this,
+      data: { event: 'clear' }
+    });
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should unselectAll if canvas sends a clear message', () => {
+    const spy = jest.spyOn(<any>directive, 'unSelectAll');
+    directive.ngOnInit();
+    directive['busService'].publish('canvas', {
+      source: this,
+      data: { event: 'unselectAll' }
+    });
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should set circle selected on mouseup event', () => {
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    g.setAttribute('id', 'foo');
+    const circle = document.createElementNS(
+      'http://www.w3.org/2000/svg',
+      'circle'
+    );
+    g.append(circle);
+    const spy = jest.spyOn(<any>directive, 'setSelected');
+    const event: any = {
+      x: 4,
+      y: 6,
+      target: circle
+    };
+    directive.onMouseUp(event);
+    expect(spy).toHaveBeenCalled();
+  });
 });

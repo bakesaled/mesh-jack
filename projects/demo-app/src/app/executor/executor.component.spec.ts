@@ -28,7 +28,7 @@ describe('ExecutorComponent', () => {
 
   it('should publish clear message and set dirty to false', () => {
     component.dirty = true;
-    const spy = spyOn(component['busService'], 'publish');
+    const spy = jest.spyOn(component['busService'], 'publish');
     component.onClearClick();
     expect(spy).toHaveBeenCalled();
     expect(component.dirty).toBeFalsy();
@@ -36,8 +36,8 @@ describe('ExecutorComponent', () => {
 
   it('should publish stop message and set flags', () => {
     component.running = true;
-    const spyPub = spyOn(component['busService'], 'publish');
-    const spyStop = spyOn(<any>component, 'stopCycle');
+    const spyPub = jest.spyOn(component['busService'], 'publish');
+    const spyStop = jest.spyOn(<any>component, 'stopCycle');
     component.onStopClick();
     expect(spyPub).toHaveBeenCalled();
     expect(spyStop).toHaveBeenCalled();
@@ -46,8 +46,8 @@ describe('ExecutorComponent', () => {
   });
 
   it('should publish start message and set flags', () => {
-    const spyPub = spyOn(component['busService'], 'publish');
-    const spyStart = spyOn(<any>component, 'runCycle');
+    const spyPub = jest.spyOn(component['busService'], 'publish');
+    const spyStart = jest.spyOn(<any>component, 'runCycle');
     component.onRunClick();
     expect(spyPub).toHaveBeenCalled();
     expect(spyStart).toHaveBeenCalled();

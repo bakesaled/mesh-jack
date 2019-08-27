@@ -80,8 +80,8 @@ describe('LinkableDirective', () => {
       x: 3,
       y: 4
     });
-    const spyPublish = spyOn(directive['busService'], 'publish');
-    const spyDrawLine = spyOn(<any>directive, 'drawLine');
+    const spyPublish = jest.spyOn(directive['busService'], 'publish');
+    const spyDrawLine = jest.spyOn(<any>directive, 'drawLine');
     directive['link'](svg);
     expect(spyPublish).toHaveBeenCalled();
     expect(spyDrawLine).toHaveBeenCalledWith(svg);
@@ -130,7 +130,7 @@ describe('LinkableDirective', () => {
   });
 
   it('should position line on element drag', () => {
-    const spy = spyOn(<any>directive, 'positionLine');
+    const spy = jest.spyOn(<any>directive, 'positionLine');
     directive['lines'].push('line-the-hulk');
     directive.ngOnInit();
     directive['busService'].publish('droppable', {
@@ -147,5 +147,25 @@ describe('LinkableDirective', () => {
       data: { event: 'selected', selected: true, component: { id: 'hulk' } }
     });
     expect(directive['selectedComponents'].length).toBe(1);
+  });
+
+  it('should clear on canvas clear message received', () => {
+    const spy = jest.spyOn(<any>directive, 'clear');
+    directive.ngOnInit();
+    directive['busService'].publish('canvas', {
+      source: this,
+      data: { event: 'clear' }
+    });
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should link on canvas link message received', () => {
+    const spy = jest.spyOn(<any>directive, 'link');
+    directive.ngOnInit();
+    directive['busService'].publish('canvas', {
+      source: this,
+      data: { event: 'link' }
+    });
+    expect(spy).toHaveBeenCalled();
   });
 });

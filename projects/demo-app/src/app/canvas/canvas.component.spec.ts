@@ -54,4 +54,43 @@ describe('CanvasComponent', () => {
     });
     expect(component.components.length).toBe(1);
   });
+
+  it('should publish unselectAll message on linkComplete message', () => {
+    const spy = jest.spyOn(component['busService'], 'publish');
+    component['busService'].publish('linkable', {
+      source: this,
+      data: { event: 'linkComplete' }
+    });
+    expect(spy).toHaveBeenNthCalledWith(2, 'canvas', {
+      source: component,
+      data: { event: 'unselectAll' }
+    });
+  });
+
+  it('should publish link message on link', () => {
+    const spy = jest.spyOn(component['busService'], 'publish');
+    component['link']();
+    expect(spy).toHaveBeenCalledWith('canvas', {
+      source: component,
+      data: { event: 'link', svgEl: component.svgEl }
+    });
+  });
+
+  it('should call clear if toolbar clear message received', () => {
+    const spy = jest.spyOn(<any>component, 'clear');
+    component['busService'].publish('toolbar', {
+      source: this,
+      data: 'clear'
+    });
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call link if toolbar link message received', () => {
+    const spy = jest.spyOn(<any>component, 'link');
+    component['busService'].publish('toolbar', {
+      source: this,
+      data: 'link'
+    });
+    expect(spy).toHaveBeenCalled();
+  });
 });
