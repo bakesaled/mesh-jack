@@ -1,0 +1,29 @@
+<p class="app-description">
+  Drag and drop a component on to the canvas. Select two components and click
+  <span class="inline-icon-container"
+    ><mat-icon [inline]="true" class="inline-icon">link</mat-icon
+    ><span class="inline-icon-text">link</span></span
+  >
+  to create a subscription link.
+</p>
+
+<div class="container">
+  <div appDraggable>
+    <svg height="100" width="100">
+      <g id="circle">
+        <circle cx="50" cy="50" r="40" stroke="black" fill="orange" />
+        <text
+          x="50px"
+          y="52px"
+          text-anchor="middle"
+          fill="white"
+          font-size="42px"
+          font-family="Arial"
+          dy=".3em"
+        >
+          C
+        </text>
+      </g>
+    </svg>
+  </div>
+</div>

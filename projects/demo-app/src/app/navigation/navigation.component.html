@@ -1,0 +1,33 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="'side'"
+    [opened]="true"
+  >
+    <mat-toolbar color="primary">mesh-jack demo</mat-toolbar>
+    <h2 class="app-panel-title">Elements</h2>
+    <app-elements></app-elements>
+    <app-executor></app-executor>
+    <app-message-log></app-message-log>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button mat-button (click)="onClearClick()" [disabled]="!dirty">
+        <mat-icon>clear</mat-icon>clear
+      </button>
+      <button
+        mat-button
+        (click)="onLinkClick()"
+        [disabled]="selectedCount !== 2"
+      >
+        <mat-icon>link</mat-icon>
+        link
+      </button>
+    </mat-toolbar>
+    <h2 class="app-panel-title">Canvas</h2>
+    <app-canvas></app-canvas>
+  </mat-sidenav-content>
+</mat-sidenav-container>

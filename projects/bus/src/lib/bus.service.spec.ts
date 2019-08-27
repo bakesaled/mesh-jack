@@ -14,7 +14,7 @@ describe('BusService', () => {
   describe('as an injectable service', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
-        providers: [BusService],
+        providers: [BusService]
       });
       service = TestBed.get(BusService);
     });
@@ -24,7 +24,7 @@ describe('BusService', () => {
     });
 
     it('should not publish if channel does not exist', () => {
-      const spy = spyOn(service['channels'], 'get');
+      const spy = jest.spyOn(service['channels'], 'get');
       service.publish('test channel', new MockMessage(this, ''));
       expect(spy).not.toHaveBeenCalled();
     });

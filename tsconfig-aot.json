@@ -20,7 +20,8 @@
     "suppressExcessPropertyErrors": true,
     "suppressImplicitAnyIndexErrors": true,
     "outDir": "release",
-    "declarationDir": "release"
+    "declarationDir": "release",
+    "types": ["jest"]
   },
   "files": ["build/declarations.d.ts", "build/index.ts"],
   "exclude": ["node_modules", "demo-app", "test.ts", "**/*.spec.ts"],

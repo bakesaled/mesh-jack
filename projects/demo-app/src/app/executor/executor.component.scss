@@ -1,0 +1,15 @@
+.container {
+  width: calc(100% - 40px);
+  max-width: 100%;
+  margin: 0 20px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.mat-toolbar {
+  height: 44px;
+}
+
+.mat-icon-button[disabled][disabled] {
+  color: rgba(255, 255, 255, 0.7);
+}

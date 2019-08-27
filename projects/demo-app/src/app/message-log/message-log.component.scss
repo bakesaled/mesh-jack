@@ -1,0 +1,22 @@
+.container {
+  width: calc(100% - 40px);
+  max-width: 100%;
+  margin: 0 20px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.mat-list {
+  height: 500px;
+}
+
+.list {
+  overflow: auto;
+  border: white 1px solid;
+}
+
+.mat-list-base .mat-list-item {
+  border-bottom: white 1px solid;
+  height: 24px;
+  font-size: 12px;
+}
