@@ -79,12 +79,12 @@ export class DroppableDirective {
     }
   }
 
-  @HostListener('mouseup', ['$event'])
+  @HostListener('mouseup')
   onMouseUp(): void {
     this.draggingElement = null;
   }
 
-  @HostListener('mouseleave', ['$event'])
+  @HostListener('mouseleave')
   onMouseLeave(): void {
     this.draggingElement = null;
   }
