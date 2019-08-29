@@ -1,13 +1,22 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import { ComponentModel } from '../component.model';
 import { BusService } from '../../../../bus/src/lib';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-canvas',
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.scss']
 })
-export class CanvasComponent implements OnInit {
+export class CanvasComponent implements OnInit, OnDestroy {
+  private destroySubject = new Subject();
   public components: ComponentModel[] = [];
 
   @ViewChild('svg', { static: true }) svg: ElementRef;
@@ -19,31 +28,44 @@ export class CanvasComponent implements OnInit {
   constructor(private busService: BusService) {}
 
   ngOnInit(): void {
-    this.busService.channel('toolbar').subscribe(message => {
-      switch (message.data) {
-        case 'clear':
-          this.clear();
-          break;
-        case 'link':
-          this.link();
-          break;
-      }
-    });
+    this.busService
+      .channel('toolbar')
+      .pipe(takeUntil(this.destroySubject))
+      .subscribe(message => {
+        switch (message.type) {
+          case 'clear':
+            this.clear();
+            break;
+          case 'link':
+            this.link();
+            break;
+        }
+      });
 
-    this.busService.channel('droppable').subscribe(message => {
-      if (message.data.event === 'drop') {
-        this.components.push(message.data.component);
-      }
-    });
+    this.busService
+      .channel('droppable')
+      .pipe(takeUntil(this.destroySubject))
+      .subscribe(message => {
+        if (message.type === 'drop') {
+          this.components.push(message.data.component);
+        }
+      });
 
-    this.busService.channel('linkable').subscribe(message => {
-      if (message.data.event === 'linkComplete') {
-        this.busService.publish('canvas', {
-          source: this,
-          data: { event: 'unselectAll' }
-        });
-      }
-    });
+    this.busService
+      .channel('linkable')
+      .pipe(takeUntil(this.destroySubject))
+      .subscribe(message => {
+        if (message.type === 'link-complete') {
+          this.busService.publish('canvas', {
+            source: this,
+            type: 'unselect-all'
+          });
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroySubject.next();
   }
 
   private clear() {
@@ -56,8 +78,8 @@ export class CanvasComponent implements OnInit {
     this.components = [];
     this.busService.publish('canvas', {
       source: this,
+      type: 'clear',
       data: {
-        event: 'clear',
         svgEl: this.svgEl
       }
     });
@@ -66,8 +88,8 @@ export class CanvasComponent implements OnInit {
   private link() {
     this.busService.publish('canvas', {
       source: this,
+      type: 'link',
       data: {
-        event: 'link',
         svgEl: this.svgEl
       }
     });

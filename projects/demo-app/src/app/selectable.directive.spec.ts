@@ -96,7 +96,7 @@ describe('SelectableDirective', () => {
     directive.ngOnInit();
     directive['busService'].publish('canvas', {
       source: this,
-      data: { event: 'clear' }
+      type: 'clear'
     });
     expect(spy).toHaveBeenCalled();
   });
@@ -106,7 +106,7 @@ describe('SelectableDirective', () => {
     directive.ngOnInit();
     directive['busService'].publish('canvas', {
       source: this,
-      data: { event: 'unselectAll' }
+      type: 'unselect-all'
     });
     expect(spy).toHaveBeenCalled();
   });
@@ -151,8 +151,8 @@ describe('SelectableDirective', () => {
     directive.onMouseUp(event);
     expect(spy).toHaveBeenCalledWith('selectable', {
       source: directive,
+      type: 'selected',
       data: {
-        selected: true,
         component: {
           id: 'foo',
           x: event.offsetX,

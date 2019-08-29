@@ -27,7 +27,7 @@ export class MessageLogComponent implements OnInit, OnDestroy {
       .channel('executor')
       .pipe(takeUntil(this.destroySubject))
       .subscribe(message => {
-        switch (message.data.event) {
+        switch (message.type) {
           case 'start':
             this.messages.push(this.formatMessage('starting'));
             break;
@@ -44,7 +44,7 @@ export class MessageLogComponent implements OnInit, OnDestroy {
       .channel('component-channel')
       .pipe(takeUntil(this.destroySubject))
       .subscribe(message => {
-        this.messages.push(this.formatMessage(message.data.text));
+        this.messages.push(this.formatMessage(message.data));
       });
   }
 

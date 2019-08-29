@@ -26,7 +26,7 @@ export class NavigationComponent implements OnInit {
 
   ngOnInit(): void {
     this.busService.channel('selectable').subscribe(message => {
-      if (message.data.selected) {
+      if (message.type === 'selected') {
         if (this.selectedCount < 2) {
           this.selectedCount++;
         }
@@ -38,14 +38,14 @@ export class NavigationComponent implements OnInit {
     });
 
     this.busService.channel('droppable').subscribe(message => {
-      if (message.data.event === 'drop') {
+      if (message.type === 'drop') {
         this.dirty = true;
       }
     });
 
     this.busService.channel('canvas').subscribe(message => {
-      switch (message.data.event) {
-        case 'unselectAll':
+      switch (message.type) {
+        case 'unselect-all':
         case 'clear':
           this.selectedCount = 0;
           break;
@@ -54,11 +54,11 @@ export class NavigationComponent implements OnInit {
   }
 
   onClearClick() {
-    this.busService.publish('toolbar', { source: this, data: 'clear' });
+    this.busService.publish('toolbar', { source: this, type: 'clear' });
     this.dirty = false;
   }
 
   onLinkClick() {
-    this.busService.publish('toolbar', { source: this, data: 'link' });
+    this.busService.publish('toolbar', { source: this, type: 'link' });
   }
 }

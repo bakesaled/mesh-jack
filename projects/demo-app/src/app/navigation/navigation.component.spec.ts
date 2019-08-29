@@ -55,7 +55,7 @@ describe('NavigationComponent', () => {
   it('should increment selectedComponentCount', () => {
     component['busService'].publish('selectable', {
       source: this,
-      data: { selected: true }
+      type: 'selected'
     });
     expect(component['selectedCount']).toBe(1);
   });
@@ -64,7 +64,7 @@ describe('NavigationComponent', () => {
     component['selectedCount'] = 1;
     component['busService'].publish('selectable', {
       source: this,
-      data: { selected: false }
+      type: 'unselected'
     });
     expect(component['selectedCount']).toBe(0);
   });
@@ -73,7 +73,8 @@ describe('NavigationComponent', () => {
     expect(component.dirty).toBe(false);
     component['busService'].publish('droppable', {
       source: this,
-      data: { event: 'drop' }
+      type: 'drop',
+      data: { component: {} }
     });
     expect(component.dirty).toBe(true);
   });
@@ -83,7 +84,7 @@ describe('NavigationComponent', () => {
     expect(component.dirty).toBe(false);
     component['busService'].publish('canvas', {
       source: this,
-      data: { event: 'clear' }
+      type: 'clear'
     });
     expect(component['selectedCount']).toBe(0);
 
@@ -91,7 +92,7 @@ describe('NavigationComponent', () => {
     expect(component.dirty).toBe(false);
     component['busService'].publish('canvas', {
       source: this,
-      data: { event: 'unselectAll' }
+      type: 'unselect-all'
     });
     expect(component['selectedCount']).toBe(0);
   });
@@ -101,7 +102,7 @@ describe('NavigationComponent', () => {
     component.onLinkClick();
     expect(spy).toHaveBeenCalledWith('toolbar', {
       source: component,
-      data: 'link'
+      type: 'link'
     });
   });
 
@@ -111,7 +112,7 @@ describe('NavigationComponent', () => {
     component.onClearClick();
     expect(spy).toHaveBeenCalledWith('toolbar', {
       source: component,
-      data: 'clear'
+      type: 'clear'
     });
     expect(component.dirty).toBe(false);
   });

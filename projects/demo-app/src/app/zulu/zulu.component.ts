@@ -24,7 +24,7 @@ export class ZuluComponent implements OnInit, OnDestroy {
       .channel('linkable')
       .pipe(takeUntil(this.destroySubject))
       .subscribe(message => {
-        if (message.data.event === 'linkComplete') {
+        if (message.type === 'link-complete') {
           this.initSubscriptions(message);
         }
       });
@@ -48,10 +48,11 @@ export class ZuluComponent implements OnInit, OnDestroy {
       this.pulseSubscription = this.busService
         .channel('executor')
         .subscribe(executorMessage => {
-          if (executorMessage.data.event === 'pulse') {
+          if (executorMessage.type === 'pulse') {
             this.busService.publish(this.channelName, {
               source: this,
-              data: { event: 'sent', text: `${this.model.id} --> sent` }
+              type: 'sent',
+              data: `${this.model.id} --> sent`
             });
           }
         });
@@ -63,14 +64,12 @@ export class ZuluComponent implements OnInit, OnDestroy {
       if (
         componentMessage.source.model.id ===
           linkableMessage.data.startComponent.id &&
-        componentMessage.data.event === 'sent'
+        componentMessage.type === 'sent'
       ) {
         this.busService.publish(this.channelName, {
           source: this,
-          data: {
-            event: 'received',
-            text: `${componentMessage.source.model.id} --> received --> ${this.model.id}`
-          }
+          type: 'received',
+          data: `${componentMessage.source.model.id} --> received --> ${this.model.id}`
         });
       }
     });

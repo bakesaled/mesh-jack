@@ -20,7 +20,7 @@ export class ExecutorComponent implements OnInit {
   onRunClick() {
     this.busService.publish('executor', {
       source: this,
-      data: { event: 'start' }
+      type: 'start'
     });
     this.runCycle();
     this.dirty = true;
@@ -30,7 +30,7 @@ export class ExecutorComponent implements OnInit {
   onStopClick() {
     this.busService.publish('executor', {
       source: this,
-      data: { event: 'stop' }
+      type: 'stop'
     });
     this.stopCycle();
     this.dirty = true;
@@ -40,7 +40,7 @@ export class ExecutorComponent implements OnInit {
   onClearClick() {
     this.busService.publish('executor', {
       source: this,
-      data: { event: 'clear' }
+      type: 'clear'
     });
     this.dirty = false;
   }
@@ -49,7 +49,7 @@ export class ExecutorComponent implements OnInit {
     this.timer = setInterval(() => {
       this.busService.publish('executor', {
         source: this,
-        data: { event: 'pulse' }
+        type: 'pulse'
       });
     }, this.interval);
   }

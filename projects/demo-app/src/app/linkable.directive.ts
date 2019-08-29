@@ -19,7 +19,8 @@ export class LinkableDirective implements OnInit, OnDestroy {
       .channel('canvas')
       .pipe(takeUntil(this.destroySubject))
       .subscribe(message => {
-        switch (message.data.event) {
+        console.log('message-type', message.type);
+        switch (message.type) {
           case 'link':
             this.link(message.data.svgEl);
             break;
@@ -33,7 +34,7 @@ export class LinkableDirective implements OnInit, OnDestroy {
       .channel('droppable')
       .pipe(takeUntil(this.destroySubject))
       .subscribe(message => {
-        if (message.data.event === 'mousemove') {
+        if (message.type === 'mousemove') {
           const foundLineIds = this.lines.filter(lineId => {
             return lineId.includes(message.data.component.id);
           });
@@ -50,11 +51,11 @@ export class LinkableDirective implements OnInit, OnDestroy {
       .channel('selectable')
       .pipe(takeUntil(this.destroySubject))
       .subscribe(message => {
-        if (message.data.event === 'selected') {
+        if (message.type === 'selected' || message.type === 'unselected') {
           const foundIdx = this.selectedComponents.findIndex(comp => {
             return comp.id === message.data.component.id;
           });
-          if (message.data.selected) {
+          if (message.type === 'selected') {
             if (foundIdx < 0) {
               this.selectedComponents.push(message.data.component);
             }
@@ -91,8 +92,8 @@ export class LinkableDirective implements OnInit, OnDestroy {
     }
     this.busService.publish('linkable', {
       source: this,
+      type: 'link-complete',
       data: {
-        event: 'linkComplete',
         startComponent: this.selectedComponents[0],
         endComponent: this.selectedComponents[1]
       }
