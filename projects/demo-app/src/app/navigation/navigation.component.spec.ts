@@ -14,6 +14,8 @@ import { FactoryComponent } from '../factory/factory.component';
 import { BusService } from '../../../../bus/src/lib';
 import { ExecutorComponent } from '../executor/executor.component';
 import { MessageLogComponent } from '../message-log/message-log.component';
+import { mockLocalStorage } from '../local-storage.mock';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 describe('NavigationComponent', () => {
   let component: NavigationComponent;
@@ -36,15 +38,20 @@ describe('NavigationComponent', () => {
         MatIconModule,
         MatListModule,
         MatSidenavModule,
-        MatToolbarModule
+        MatToolbarModule,
+        MatSlideToggleModule
       ],
       providers: [BusService]
     }).compileComponents();
   }));
 
   beforeEach(() => {
+    spyOn(localStorage, 'getItem').and.callFake(mockLocalStorage.getItem);
+    spyOn(localStorage, 'setItem').and.callFake(mockLocalStorage.setItem);
+
     fixture = TestBed.createComponent(NavigationComponent);
     component = fixture.componentInstance;
+    component['busService'].debug = false;
     fixture.detectChanges();
   });
 
@@ -115,5 +122,12 @@ describe('NavigationComponent', () => {
       type: 'clear'
     });
     expect(component.dirty).toBe(false);
+  });
+
+  it('should set debug mode when changed', () => {
+    component.onDebugChange(true);
+    expect(localStorage.getItem('mesh-jack-debug')).toBeTruthy();
+    expect(component['debugSubject']['value']).toBeTruthy();
+    expect(component['busService'].debug).toBeTruthy();
   });
 });

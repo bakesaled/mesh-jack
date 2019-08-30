@@ -12,6 +12,7 @@ describe('BusService', () => {
         providers: [BusService]
       });
       service = TestBed.get(BusService);
+      service.debug = false;
     });
 
     it('should be created', () => {
@@ -32,6 +33,23 @@ describe('BusService', () => {
       const subj = new Subject();
       const result = service.channel('test channel');
       expect(result).toEqual(subj.asObservable());
+    });
+
+    it('should log channel info when in debug mode', () => {
+      service.debug = true;
+      const spy = jest.spyOn(console, 'debug');
+      service.channel('test channel');
+      expect(spy).toHaveBeenCalledTimes(2);
+    });
+
+    it('should log attempt to publish to nonexistent when in debug mode', () => {
+      service.debug = true;
+      const spy = jest.spyOn(console, 'debug');
+      service.publish('i do not exist', {
+        source: this,
+        type: ''
+      });
+      expect(spy).toHaveBeenCalled();
     });
   });
 });

@@ -24,7 +24,13 @@
     "types": ["jest"]
   },
   "files": ["build/declarations.d.ts", "build/index.ts"],
-  "exclude": ["node_modules", "demo-app", "test.ts", "**/*.spec.ts"],
+  "exclude": [
+    "node_modules",
+    "demo-app",
+    "test.ts",
+    "**/*.spec.ts",
+    "**/*.mock.ts"
+  ],
   "compileOnSave": false,
   "buildOnSave": false,
   "angularCompilerOptions": {
