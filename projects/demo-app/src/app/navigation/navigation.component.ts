@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map, share } from 'rxjs/operators';
 import { BusService } from '../../../../bus/src/lib';
 
@@ -10,6 +10,8 @@ import { BusService } from '../../../../bus/src/lib';
   styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent implements OnInit {
+  private debugSubject = new BehaviorSubject<boolean>(false);
+
   selectedCount = 0;
   dirty = false;
   isHandset$: Observable<boolean> = this.breakpointObserver
@@ -18,6 +20,7 @@ export class NavigationComponent implements OnInit {
       map(result => result.matches),
       share()
     );
+  debug$ = this.debugSubject.asObservable();
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -51,6 +54,9 @@ export class NavigationComponent implements OnInit {
           break;
       }
     });
+
+    const debug = localStorage.getItem('mesh-jack-debug');
+    this.debugSubject.next(debug ? JSON.parse(debug) : false);
   }
 
   onClearClick() {
@@ -60,5 +66,11 @@ export class NavigationComponent implements OnInit {
 
   onLinkClick() {
     this.busService.publish('toolbar', { source: this, type: 'link' });
+  }
+
+  onDebugChange(checked: boolean) {
+    this.debugSubject.next(checked);
+    localStorage.setItem('mesh-jack-debug', JSON.stringify(checked));
+    this.busService.debug = true;
   }
 }

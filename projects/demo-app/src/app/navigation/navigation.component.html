@@ -26,6 +26,12 @@
         <mat-icon>link</mat-icon>
         link
       </button>
+      <span class="spacer"></span>
+      <mat-slide-toggle
+        [checked]="debug$ | async"
+        (change)="onDebugChange($event.checked)"
+        >debug</mat-slide-toggle
+      >
     </mat-toolbar>
     <h2 class="app-panel-title">Canvas</h2>
     <app-canvas></app-canvas>

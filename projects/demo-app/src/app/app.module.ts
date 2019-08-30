@@ -23,7 +23,8 @@ import { FactoryComponent } from './factory/factory.component';
 import { SelectableDirective } from './selectable.directive';
 import { LinkableDirective } from './linkable.directive';
 import { ExecutorComponent } from './executor/executor.component';
-import { MatTooltipModule } from '@angular/material';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { MatTooltipModule } from '@angular/material';
     MatSidenavModule,
     MatIconModule,
     MatListModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSlideToggleModule
   ],
   providers: [BusService],
   bootstrap: [AppComponent],
