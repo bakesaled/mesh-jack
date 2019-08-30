@@ -32,8 +32,8 @@ describe('ZuluComponent', () => {
     };
     component['busService'].publish('linkable', {
       source: this,
+      type: 'link-complete',
       data: {
-        event: 'linkComplete',
         startComponent: {
           id: 'the'
         },
@@ -52,8 +52,8 @@ describe('ZuluComponent', () => {
     };
     component['initSubscriptions']({
       source: this,
+      type: 'link-component',
       data: {
-        event: 'linkComplete',
         startComponent: {
           id: 'the'
         },
@@ -73,14 +73,13 @@ describe('ZuluComponent', () => {
     component['subscribeToExecutorMessages']();
     component['busService'].publish('executor', {
       source: this,
-      data: {
-        event: 'pulse'
-      }
+      type: 'pulse'
     });
     expect(component['pulseSubscription']).not.toBe(Subscription.EMPTY);
     expect(spy).toHaveBeenNthCalledWith(2, 'component-channel', {
       source: component,
-      data: { event: 'sent', text: `hulk --> sent` }
+      type: 'sent',
+      data: `hulk --> sent`
     });
   });
 
@@ -98,16 +97,12 @@ describe('ZuluComponent', () => {
     });
     component['busService'].publish('component-channel', {
       source: { model: { id: 'the' } },
-      data: {
-        event: 'sent'
-      }
+      type: 'sent'
     });
     expect(spy).toHaveBeenCalledWith('component-channel', {
       source: component,
-      data: {
-        event: 'received',
-        text: `the --> received --> hulk`
-      }
+      type: 'received',
+      data: `the --> received --> hulk`
     });
   });
 });

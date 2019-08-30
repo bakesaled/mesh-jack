@@ -2,11 +2,6 @@ import { TestBed } from '@angular/core/testing';
 
 import { BusService } from './bus.service';
 import { Subject } from 'rxjs';
-import { BusMessage } from './bus-message';
-
-class MockMessage implements BusMessage {
-  constructor(public source: any, public data: any) {}
-}
 
 describe('BusService', () => {
   let service: BusService;
@@ -25,12 +20,16 @@ describe('BusService', () => {
 
     it('should not publish if channel does not exist', () => {
       const spy = jest.spyOn(service['channels'], 'get');
-      service.publish('test channel', new MockMessage(this, ''));
+      service.publish('test channel', {
+        source: this,
+        type: 'test event',
+        data: 'test data'
+      });
       expect(spy).not.toHaveBeenCalled();
     });
 
     it('should return channel', () => {
-      const subj = new Subject<MockMessage>();
+      const subj = new Subject();
       const result = service.channel('test channel');
       expect(result).toEqual(subj.asObservable());
     });

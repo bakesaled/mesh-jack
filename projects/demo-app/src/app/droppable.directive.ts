@@ -38,8 +38,8 @@ export class DroppableDirective {
     this.setPosition(droppedElement, { x: svgPoint.x, y: svgPoint.y });
     this.busService.publish('droppable', {
       source: this,
+      type: 'drop',
       data: {
-        event: 'drop',
         component: {
           id: uuid,
           x: svgPoint.x,
@@ -56,8 +56,8 @@ export class DroppableDirective {
       this.setPosition(this.draggingElement, { x: svgPoint.x, y: svgPoint.y });
       this.busService.publish('droppable', {
         source: this,
+        type: 'mousemove',
         data: {
-          event: 'mousemove',
           component: {
             id:
               this.draggingElement.id === ''

@@ -19,8 +19,8 @@ export class SelectableDirective implements OnInit, OnDestroy {
       .channel('canvas')
       .pipe(takeUntil(this.destroySubject))
       .subscribe(message => {
-        switch (message.data.event) {
-          case 'unselectAll':
+        switch (message.type) {
+          case 'unselect-all':
             this.unSelectAll();
             break;
           case 'clear':
@@ -44,8 +44,8 @@ export class SelectableDirective implements OnInit, OnDestroy {
     if (this.elementWasDragged(event)) {
       this.busService.publish('selectable', {
         source: this,
+        type: 'selected',
         data: {
-          selected: true,
           component: {
             id: this.getNearestElementId(el),
             x: event.offsetX,
@@ -120,7 +120,8 @@ export class SelectableDirective implements OnInit, OnDestroy {
 
     this.busService.publish('selectable', {
       source: this,
-      data: { event: 'selected', selected: selected, component: component }
+      type: selected ? 'selected' : 'unselected',
+      data: { component: component }
     });
   }
 

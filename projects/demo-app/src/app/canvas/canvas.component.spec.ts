@@ -50,20 +50,21 @@ describe('CanvasComponent', () => {
   it('should add new component on drop message', () => {
     component['busService'].publish('droppable', {
       source: this,
-      data: { event: 'drop', component: { id: 'hulk' } }
+      type: 'drop',
+      data: { component: { id: 'hulk' } }
     });
     expect(component.components.length).toBe(1);
   });
 
-  it('should publish unselectAll message on linkComplete message', () => {
+  it('should publish unselectAll message on link-complete message', () => {
     const spy = jest.spyOn(component['busService'], 'publish');
     component['busService'].publish('linkable', {
       source: this,
-      data: { event: 'linkComplete' }
+      type: 'link-complete'
     });
     expect(spy).toHaveBeenNthCalledWith(2, 'canvas', {
       source: component,
-      data: { event: 'unselectAll' }
+      type: 'unselect-all'
     });
   });
 
@@ -72,7 +73,8 @@ describe('CanvasComponent', () => {
     component['link']();
     expect(spy).toHaveBeenCalledWith('canvas', {
       source: component,
-      data: { event: 'link', svgEl: component.svgEl }
+      type: 'link',
+      data: { svgEl: component.svgEl }
     });
   });
 
@@ -80,7 +82,7 @@ describe('CanvasComponent', () => {
     const spy = jest.spyOn(<any>component, 'clear');
     component['busService'].publish('toolbar', {
       source: this,
-      data: 'clear'
+      type: 'clear'
     });
     expect(spy).toHaveBeenCalled();
   });
@@ -89,7 +91,7 @@ describe('CanvasComponent', () => {
     const spy = jest.spyOn(<any>component, 'link');
     component['busService'].publish('toolbar', {
       source: this,
-      data: 'link'
+      type: 'link'
     });
     expect(spy).toHaveBeenCalled();
   });

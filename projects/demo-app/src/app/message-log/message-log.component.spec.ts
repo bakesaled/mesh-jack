@@ -45,7 +45,7 @@ describe('MessageLogComponent', () => {
   it('should add new message on component-channel message', () => {
     component['busService'].publish('component-channel', {
       source: this,
-      data: { text: 'hulk' }
+      type: 'hulk'
     });
     expect(component.messages.length).toBe(1);
   });
@@ -53,7 +53,7 @@ describe('MessageLogComponent', () => {
   it('should add new message on executor start message', () => {
     component['busService'].publish('executor', {
       source: this,
-      data: { event: 'start' }
+      type: 'start'
     });
     expect(component.messages.length).toBe(1);
   });
@@ -61,7 +61,7 @@ describe('MessageLogComponent', () => {
   it('should add new message on executor stop message', () => {
     component['busService'].publish('executor', {
       source: this,
-      data: { event: 'stop' }
+      type: 'stop'
     });
     expect(component.messages.length).toBe(1);
   });
@@ -70,7 +70,7 @@ describe('MessageLogComponent', () => {
     component.messages.push('hulk');
     component['busService'].publish('executor', {
       source: this,
-      data: { event: 'clear' }
+      type: 'clear'
     });
     expect(component.messages.length).toBe(0);
   });

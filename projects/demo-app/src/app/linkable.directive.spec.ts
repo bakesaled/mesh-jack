@@ -83,7 +83,14 @@ describe('LinkableDirective', () => {
     const spyPublish = jest.spyOn(directive['busService'], 'publish');
     const spyDrawLine = jest.spyOn(<any>directive, 'drawLine');
     directive['link'](svg);
-    expect(spyPublish).toHaveBeenCalled();
+    expect(spyPublish).toHaveBeenCalledWith('linkable', {
+      source: directive,
+      type: 'link-complete',
+      data: {
+        startComponent: directive['selectedComponents'][0],
+        endComponent: directive['selectedComponents'][1]
+      }
+    });
     expect(spyDrawLine).toHaveBeenCalledWith(svg);
   });
 
@@ -135,7 +142,8 @@ describe('LinkableDirective', () => {
     directive.ngOnInit();
     directive['busService'].publish('droppable', {
       source: this,
-      data: { event: 'mousemove', component: { id: 'hulk' } }
+      type: 'mousemove',
+      data: { component: { id: 'hulk' } }
     });
     expect(spy).toHaveBeenCalled();
   });
@@ -144,7 +152,8 @@ describe('LinkableDirective', () => {
     directive.ngOnInit();
     directive['busService'].publish('selectable', {
       source: this,
-      data: { event: 'selected', selected: true, component: { id: 'hulk' } }
+      type: 'selected',
+      data: { component: { id: 'hulk' } }
     });
     expect(directive['selectedComponents'].length).toBe(1);
   });
@@ -155,7 +164,8 @@ describe('LinkableDirective', () => {
     expect(directive['selectedComponents'].length).toBe(1);
     directive['busService'].publish('selectable', {
       source: this,
-      data: { event: 'selected', selected: false, component: { id: 'hulk' } }
+      type: 'unselected',
+      data: { component: { id: 'hulk' } }
     });
     expect(directive['selectedComponents'].length).toBe(0);
   });
@@ -165,7 +175,8 @@ describe('LinkableDirective', () => {
     directive.ngOnInit();
     directive['busService'].publish('canvas', {
       source: this,
-      data: { event: 'clear' }
+      type: 'clear',
+      data: {}
     });
     expect(spy).toHaveBeenCalled();
   });
@@ -175,7 +186,8 @@ describe('LinkableDirective', () => {
     directive.ngOnInit();
     directive['busService'].publish('canvas', {
       source: this,
-      data: { event: 'link' }
+      type: 'link',
+      data: {}
     });
     expect(spy).toHaveBeenCalled();
   });
