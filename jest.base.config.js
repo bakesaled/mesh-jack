@@ -3,7 +3,7 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/jest-setup.ts'],
   coveragePathIgnorePatterns: [
     'node_modules',
-    'setupJest.ts',
+    'jest-setup.ts',
     'src/environments',
     'src/polyfills.ts',
     '.mock.ts'
