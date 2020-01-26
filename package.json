@@ -1,6 +1,6 @@
 {
   "name": "@bakesaled/mesh-jack",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Decoupled Angular message bus.",
   "main": "release/index.js",
   "module": "release/esm.js",

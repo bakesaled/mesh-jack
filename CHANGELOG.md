@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/bakesaled/mesh-jack/compare/v2.0.1...v2.1.0) (2020-01-26)
+
+
+### Features
+
+* add github button ([ae7ded5](https://github.com/bakesaled/mesh-jack/commit/ae7ded53d1f4f6010e8a776e6cdbafa123efa626))
+* clarify instructions. ([5f7f9af](https://github.com/bakesaled/mesh-jack/commit/5f7f9af809fa62f142fa82e21043013d13566169))
+
 ### [2.0.1](https://github.com/bakesaled/mesh-jack/compare/v0.0.1...v2.0.1) (2019-08-30)
 
 
